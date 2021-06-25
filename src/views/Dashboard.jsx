@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import styled from 'styled-components'
 import useAuth from '../hooks/useAuth';
 import SpotifyWebApi from 'spotify-web-api-node';
 import TrackSearchResult from './TrackSearchResult';
@@ -6,6 +7,24 @@ import Player from './Player';
 import axios from 'axios';
 import CategoriesList from './CategoriesList';
 import Sidebar from '../components/organisms/Sidebar';
+import UserPageTemplate from '../templates/UserPageTemplate';
+
+const StyledWrapper = styled.section`
+   display:flex;
+   min-height:100vh;
+`
+const PlayPanel = styled.div`
+  display: flex;
+  align-items: flex-end;
+  padding:10px;
+  position:fixed;
+  background: #ffffff;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:100px;
+`
+
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'c36d86cf60394581b15294dcb6863de9',
@@ -115,10 +134,12 @@ const Dashboard = ({code}) => {
     
 
     return (
-        <section>
-                  <input type="search" placeholder="search songs" value={search} onChange={e => setSearch(e.target.value)}></input>
-                <Sidebar/>
+        <UserPageTemplate>
+             <StyledWrapper>
+                
+       
                   <div>
+                    <input type="search" placeholder="search songs" value={search} onChange={e => setSearch(e.target.value)}></input>
                       {searchResults.map(track => (
                           <TrackSearchResult 
                                track={track} 
@@ -141,8 +162,11 @@ const Dashboard = ({code}) => {
                           />
                       ))}
                   </div>
-                  <div><Player accessToken={accessToken} trackUri={playingTrack?.uri}/></div>
-        </section>
+                  <PlayPanel>
+                      <Player accessToken={accessToken} trackUri={playingTrack?.uri}/>
+                 </PlayPanel>
+            </StyledWrapper>
+        </UserPageTemplate>
   
     );
 }

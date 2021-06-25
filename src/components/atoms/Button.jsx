@@ -37,5 +37,15 @@ const Button = styled.a`
         opacity: .6;
     }
   `}
+  ${({normal})=> normal && css`
+      width:160px;
+      height:38px; 
+      font-size: ${({theme})=>theme.fontSize.small};
+      margin-left:20px;
+
+      & > span {
+        margin-right:8px; 
+      }
+  `}
 `
 export default Button;
