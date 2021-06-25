@@ -1,12 +1,16 @@
 import Login from "./Login";
 import Dashboard from "./Dashboard";
+import MainTemplate from "../templates/MainTemplate";
 
 const CODE = new URLSearchParams(window.location.search).get('code')
 
 function App() {
   return (
     <>
-    {CODE ? <Dashboard code={CODE}/> : <Login/>}
+    <MainTemplate>
+         {CODE ? <Dashboard code={CODE}/> : <Login/>}
+    </MainTemplate>
+
 
     </>
   );
