@@ -1,20 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import Sidebar from '../components/organisms/Sidebar';
+
 
 const Container = styled.div`
+   display: flex;
+   flex-direction: column;
+   min-height:100vh;
+   width:100%;
+   background-color:#eaebeb7d;
    padding:20px 0 20px 400px;
 `
 
-
 const UserPageTemplate = ({children}) => {
     return ( 
-        <>
-        <Sidebar/>
-        <Container>
+ 
+        <Container >
             {children}
         </Container>
-        </>
+
      );
 }
  

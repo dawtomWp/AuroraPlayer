@@ -12,7 +12,7 @@ const TrackSearchResult = ({track, chooseTrack}) => {
         return `${minutes}:${seconds < 10 ?  '0' + seconds : seconds}`
     }
 
-    console.log(track)
+  //  console.log(track)
     return (
     <div onClick = {handlePlay}>
           <img src={track.albumUrl} style={{height: "64px", width: '64px'}} alt="song poster"  />

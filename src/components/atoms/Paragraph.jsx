@@ -7,6 +7,13 @@ const Paragraph = styled.p`
 
    ${({thinParagraph}) => thinParagraph && css`
       font-weight:${({theme})=>theme.fontWeight.thin};
+      font-size: ${({theme})=>theme.fontSize.large};
+   `}
+   ${({thinSmall}) => thinSmall && css`
+      font-weight:${({theme})=>theme.fontWeight.bold};
+      margin-top:5px;
+      font-size: ${({theme})=>theme.fontSize.small};
+      text-align:center;
    `}
    ${({boldParagraph}) => boldParagraph && css`
       font-weight:${({theme})=>theme.fontWeight.bold};

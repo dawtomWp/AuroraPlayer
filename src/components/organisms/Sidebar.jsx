@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
   padding-top:100px;
   padding-bottom:25px;
   height:885px;
-  background-color:#eaebeb;
+  background-color:#eaebeb96;
 `
 const LogoSection = styled.div`
   display: flex;
@@ -56,8 +56,8 @@ const Sidebar = () => {
            </LogoSection>
 
            <MainNavSection>
-                 <Paragraph navitem="true" as={NavLink} to="/dashboard"><span><TiHome/></span> Home</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/search"><span><GoSearch/></span> Browse</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/"><span><TiHome/></span> Home</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/browser"><span><GoSearch/></span> Browse</Paragraph>
                  <Paragraph navitem="true" as={NavLink} to="/placeholder"><span><GoSearch/></span> Placeholder</Paragraph>
            </MainNavSection>
 

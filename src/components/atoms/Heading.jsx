@@ -10,6 +10,15 @@ const Heading = styled.h1 `
      font-size: ${({theme})=> theme.fontSize.large};
      margin-top:12px;
    `}
+   ${({sectionTitle})=> sectionTitle && css`
+      background-image:none;
+     -webkit-background-clip:initial;
+     -webkit-text-fill-color: initial;
+     font-size: ${({theme})=> theme.fontSize.medium};
+     text-transform:uppercase;
+     color:black !important;
+     margin-top:12px;
+   `}
 
 
 

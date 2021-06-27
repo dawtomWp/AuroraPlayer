@@ -8,7 +8,7 @@ const Player = ({accessToken, trackUri}) => {
         <SpotifyPlayer
            token={accessToken}
            showSaveLogo
-           autoPlay
+         //   autoPlay
            uris={trackUri ? [trackUri] : []}
         />
      );

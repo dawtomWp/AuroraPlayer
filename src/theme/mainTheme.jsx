@@ -6,7 +6,7 @@ export const theme = {
     textSecondary:'#8f8f8f',
     
     fontSize: {
-        small: '1.2rem',
+        small: '1.3rem',
         medium: '1.5rem',
         large: '2.3rem',
         extraLarge: '4rem',
