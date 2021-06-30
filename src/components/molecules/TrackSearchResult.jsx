@@ -1,29 +1,76 @@
 import React from 'react';
+import { useConverter } from '../../hooks/useConverter';
+import styled from 'styled-components';
+import Logo from '../atoms/Logo';
+import Paragraph from '../atoms/Paragraph';
+import {BsClock} from 'react-icons/bs';
+import {RiAlbumLine} from 'react-icons/ri';
+
+
+const Track = styled.div`
+  display: flex;
+  cursor:pointer;
+  justify-content:space-between;
+  margin: 8px 25px 8px 0;
+  padding:5px;
+  transition: background .5s;
+  &:hover {
+    background: white;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-self: flex-start;
+
+    & > img {
+      margin-right:12px;
+    }
+  }
+`
+const TimeInfo = styled.div`
+   display: flex;
+   flex-direction: column !important;
+   align-items: flex-end;
+   justify-content: center;
+
+   & >p > span{
+     margin-right:5px;
+     font-size:10px;
+   }
+     
+`
 
 const TrackSearchResult = ({track, chooseTrack}) => {
+    
+    const isConvert = useConverter(track.duration)
 
     function handlePlay () {
       chooseTrack(track)
     }
-    const convertDurationUnit = (ms) => {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = ((ms % 60000) / 1000).toFixed(0); 
 
-        return `${minutes}:${seconds < 10 ?  '0' + seconds : seconds}`
-    }
-
-  //  console.log(track)
     return (
-    <div onClick = {handlePlay}>
-          <img src={track.albumUrl} style={{height: "64px", width: '64px'}} alt="song poster"  />
+    <Track onClick = {handlePlay}>
+                   
           <div>
-              <p>{track.title}</p>
-              <p>{track.artist}</p>
-              <p>{convertDurationUnit(track.duration)}</p>
-              <p>{track.release}</p>
-              <p>{track.albumName === track.title ? "Single": track.albumName}</p>
+            <Logo small src={track.albumUrl} alt="song poster"/>
+
+             <div>
+                <p children={track.title}/>
+                <Paragraph thinSmall children={track.albumName === track.title ? "Single": track.albumName}/>
+                <Paragraph thinDesc children={track.artist}/>
+ 
+             </div>
+          
+      
+          
+
           </div>
-    </div> 
+          <TimeInfo>
+            <Paragraph thinSmall><span><BsClock/></span>{isConvert}</Paragraph>
+            <Paragraph thinSmall><span><RiAlbumLine/></span>{track.release}</Paragraph>
+          </TimeInfo>
+    </Track> 
     
     );
 }

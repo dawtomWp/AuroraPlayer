@@ -18,7 +18,7 @@ import {AiOutlinePlusCircle} from 'react-icons/ai'
 
 const StyledWrapper = styled.div`
   display: flex;
-  position:absolute;
+  position:fixed;
   flex-direction: column;
   justify-content: space-evenly;
   width:350px;
@@ -51,7 +51,7 @@ const Sidebar = () => {
     return ( 
        <StyledWrapper>
            <LogoSection>
-                 <Logo src={logo} small/>
+                 <Logo src={logo} smallLogo/>
                  <Heading sidebarTitle children="AURORA"/>
            </LogoSection>
 

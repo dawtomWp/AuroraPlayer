@@ -26,9 +26,10 @@ body {
 
 }
 .rswp__active {
-    position: absolute;
-    top:-10px;
-    left:-440px;
+    position: fixed;
+
+    bottom:25px;
+    left:20px;
     
 }
 .rswp__active img {
@@ -42,10 +43,35 @@ body {
     align-items: center;
     display: flex;
     height: 48px;
-    left: -249px;
-    top: -8px;
-    position: absolute;
+    left: 170px;
+    bottom: 25px;
+    position: fixed;
     justify-content: center;
+}
+
+.__14rtdjw button.rswp__toggle {
+    font-size: 19px;
+    width:35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:35px;
+    background-color: rgb(0, 209, 209);
+    border-radius: 50%;
+    box-shadow:0px 15px 20px 1px #91f3dbdd;
+}
+.__14rtdjw button.rswp__toggle svg {
+    color:white;
+}
+.PlayerRSWP {
+    min-height:40px !important; 
+    cursor: pointer;
+    height:40px;
+}
+._ActionsRSWP {
+    position:absolute;
+    top:-24px;
+    right:-230px;
 }
 
 `;

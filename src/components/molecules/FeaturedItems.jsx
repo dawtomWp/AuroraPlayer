@@ -20,7 +20,7 @@ const FeaturedItems = ({featured}) => {
 
 
                 <Logo medium src={featured.image}/>
-                <Paragraph thinSmall children={featured.name}/>
+                <Paragraph thinSmallCenter children={featured.name}/>
         
         </StyledWrapper>
      );

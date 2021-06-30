@@ -1,13 +1,32 @@
 import React,{useState,useEffect} from 'react';
+import styled from 'styled-components';
 import UserPageTemplate from '../templates/UserPageTemplate';
 import TrackSearchResult from '../components/molecules/TrackSearchResult';
 import axios from 'axios';
+import BestResult from '../components/molecules/BestResult';
+import Heading from '../components/atoms/Heading';
+
+
+const StyledInnerWrapper = styled.div`
+    display: flex;
+    justify-content: space-around;
+`
+const SearchResultWrapper = styled.div`
+   display: flex;
+   width:60%;
+   flex-direction: column;
+   & > h1 {
+         font-size:20px;
+         margin-bottom:30px;
+     }
+`
 
 
 
 
 const Browser = ({access,api, trackCallback}) => {
    const [searchResults, setSearchResults] = useState([]);
+   const [bestResult, setBestResult] = useState('')
    const [search, setSearch] = useState('');
    const [playingTrack, setPlayingTrack] = useState();
    const [lyrics, setLyrics] = useState("");
@@ -18,6 +37,7 @@ const Browser = ({access,api, trackCallback}) => {
     setSearch('')
     setLyrics("")   
     trackCallback(track)
+    setBestResult('')
 }
 
     useEffect(() => {
@@ -28,7 +48,20 @@ const Browser = ({access,api, trackCallback}) => {
 
         api.searchTracks(search).then(res => {
             if(cancel) return;
-         //   console.log(res.body.tracks.items)
+            let bestTrack = res.body.tracks.items[0]
+            console.log(res)
+            setBestResult(
+         
+                bestTrack = {
+                    artist: bestTrack.artists[0].name,
+                    title: bestTrack.name,
+                    uri: bestTrack.uri,
+                    duration: bestTrack.duration_ms,
+                    albumName: bestTrack.album.name,
+                    release: bestTrack.album.release_date,
+                    albumUrl: bestTrack.album.images[1].url,
+                }
+            )
             setSearchResults(
                 res.body.tracks.items.map(track => {
 
@@ -49,9 +82,9 @@ const Browser = ({access,api, trackCallback}) => {
                     albumUrl: albumImgSmall.url,
                 }
             }))
+ 
         })
-        
-     
+
       return () => cancel = true
     },[api,search, access])
 
@@ -75,19 +108,37 @@ const Browser = ({access,api, trackCallback}) => {
        <UserPageTemplate>
              <div>
                     <input type="search" placeholder="search songs" value={search} onChange={e => setSearch(e.target.value)}></input>
-                      {searchResults.map(track => (
-                          <TrackSearchResult 
-                               track={track} 
-                               key={track.uri}
-                               chooseTrack={chooseTrack}
-                          />
-                      ))}
-                      {playingTrack  && (
-                          <div style={{whiteSpace: "pre"}}>
-                              {lyrics}
-                          </div>
-                          
-                      )}
+                 
+             <StyledInnerWrapper>
+            
+                    {search && <BestResult 
+                                    bestResult={bestResult}
+                                    key={bestResult.uri}
+                                    chooseTrack={chooseTrack}
+                                />
+                    }
+              
+                    <SearchResultWrapper>      
+                       {search && <Heading sectionTitle children={'Search result'}/>}
+                       {searchResults.map(track => (
+                                  
+                                  
+                                 <TrackSearchResult 
+                                      track={track} 
+                                      key={track.uri}
+                                      chooseTrack={chooseTrack}
+                                 />
+                             ))}
+                             {playingTrack  && (
+                                 <div style={{whiteSpace: "pre"}}>
+                                     {lyrics}
+                                 </div>
+                                 
+                             )}
+                         </SearchResultWrapper>
+                </StyledInnerWrapper>
+                    
+                     
                  
                  
                   </div>

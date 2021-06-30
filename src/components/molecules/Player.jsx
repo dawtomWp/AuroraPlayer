@@ -1,11 +1,11 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
 const StyledWrapper = styled.div`
-   width:50%;
+   width:30%;
    margin-bottom:10px;
-   margin-left:450px;
+   margin: 0 auto;
 `
 const StyledPlayer = styled(SpotifyPlayer)`
     & > div {
@@ -14,27 +14,28 @@ const StyledPlayer = styled(SpotifyPlayer)`
 `
 
 const Player = ({accessToken, trackUri}) => {
+    const [play,setPlay] = useState(false);
+    useEffect(() => setPlay(true),[trackUri])
+
 
     if(!accessToken) return null;
     return ( 
         <StyledWrapper>
 
                <StyledPlayer
-            token={accessToken}
-            showSaveLogo
-            autoPlay={true}
-            showSaveIcon
-            uris={trackUri ? [trackUri] : []}
-            styles={{
-               // activeColor: '#fff',
-               color: '#00d1d1',
-               // loaderColor: '#fff',
-               sliderColor: 'rgba(255,0,0,1)',
-               sliderHandleColor: 'rgba(255,0,0,1)',
-
-               // trackArtistColor: '#ccc',
-               // trackNameColor: '#fff',
-             }}
+                      token={accessToken}
+                      showSaveLogo
+                      callback={state => {
+                          if(!state.isPlaying) setPlay(false)
+                      }}
+                      play={play}
+                      showSaveIcon
+                      uris={trackUri ? [trackUri] : []}
+                      styles={{
+                        color: '#00d1d1',
+                         sliderColor: 'rgba(255,0,0,1)',
+                         sliderHandleColor: 'rgba(255,0,0,1)',
+                  }}
         />
         </StyledWrapper>
        

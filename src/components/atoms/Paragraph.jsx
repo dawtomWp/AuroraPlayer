@@ -9,16 +9,21 @@ const Paragraph = styled.p`
       font-weight:${({theme})=>theme.fontWeight.thin};
       font-size: ${({theme})=>theme.fontSize.large};
    `}
+   ${({thinSmallCenter}) => thinSmallCenter && css`
+      font-weight:${({theme})=>theme.fontWeight.bold};
+      margin-top:5px;
+      font-size: ${({theme})=>theme.fontSize.small};
+      text-align: center;
+   `}
    ${({thinSmall}) => thinSmall && css`
       font-weight:${({theme})=>theme.fontWeight.bold};
       margin-top:5px;
       font-size: ${({theme})=>theme.fontSize.small};
-      text-align:center;
    `}
    ${({thinDesc}) => thinDesc && css`
       font-weight:${({theme})=>theme.fontWeight.thin};
       margin-top:5px;
-      margin-bottom:20px;
+
       font-size: ${({theme})=>theme.fontSize.small};
    `}
    ${({boldParagraph}) => boldParagraph && css`
