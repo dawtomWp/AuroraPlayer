@@ -11,14 +11,35 @@ const StyledWrapper = styled.div `
     background-repeat:no-repeat;
     background-size:cover;
     padding:30px;
+    margin: 0 auto;
     box-shadow: 0px 15px 20px #b8b5b5;
     transition: all .4s;
+
     cursor:pointer;
+    & > h2 {
+        color:white;
+        z-index:1;
+    }
     & > p {
-        display:block;
-       color:white;
+        position: absolute;
+        bottom:5%;
+        font-weight:bold;
+        display:flex;
+        flex-direction: column;
+       color:${({theme})=> theme.text};
        z-index:1;
+       align-items:flex-start;
+       &:last-of-type{
+           position:absolute;
+           bottom:5%;
+           right:5%;
+        }
+
+       & > span {
+           color:white;
+       }
    }
+
    &:hover {
        transform:scale(1.04);
        box-shadow: 0px 15px 30px 3px #a5a1a1;
@@ -39,9 +60,11 @@ const InnerShadow = styled.div`
 const NewTrackCard = ({newTrack}) => {
     return ( 
         <StyledWrapper style={{backgroundImage:`url(${newTrack.image})`}}>
-            <p><span>Album </span> {newTrack.name}</p>
-            <p><span>Artist </span>{newTrack.artist}</p>
-            <p>Release date {newTrack.date}</p>
+            <h2>{newTrack.name}</h2>
+     
+               <p>Artist<span>{newTrack.artist}</span></p>
+               <p>Release <span>{newTrack.date}</span></p>
+
             <InnerShadow/>
           
        

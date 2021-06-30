@@ -7,6 +7,7 @@ const Logo = styled.img`
   ${({small})=> small && css`
      width:60px;
      height:60px;
+
   `}
   ${({medium})=> medium && css`
      width:100px;
@@ -18,6 +19,12 @@ const Logo = styled.img`
       box-shadow: 0px 5px 10px 3px #858585;
 
      }
+  `}
+  ${({avatar}) => avatar && css`
+       box-shadow: 0px 15px 20px 1px #aaaaaa;
+       border-radius:50%;
+       width:40px;
+       height:40px;
   `}
 
 `

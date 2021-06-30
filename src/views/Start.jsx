@@ -4,7 +4,23 @@ import FeaturedItems from '../components/molecules/FeaturedItems';
 import UserPageTemplate from '../templates/UserPageTemplate';
 import Heading from '../components/atoms/Heading';
 import Paragraph from '../components/atoms/Paragraph';
-import NewTrackCard from '../components/molecules/NewTrackCard'
+import NewTrackCard from '../components/molecules/NewTrackCard';
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/components/effect-coverflow/effect-coverflow.min.css"
+import "swiper/components/pagination/pagination.min.css"
+import "swiper/components/navigation/navigation.min.css"
+
+
+import SwiperCore, {
+  EffectCoverflow,Pagination,Autoplay,Navigation
+} from 'swiper/core';
+
+
+SwiperCore.use([EffectCoverflow,Pagination,Autoplay,Navigation]);
 
 const StyledBottom = styled.div`
     display:grid;
@@ -17,11 +33,54 @@ const StyledBottom = styled.div`
         grid-template-columns: repeat(4,1fr);
     }
 `
-const Start = ({access,api}) => {
+const StyledSwiper = styled(Swiper)`
+ width:100%;
+ margin:0 auto;
+ display: flex;
+ padding:40px !important;
+
+
+
+`
+
+
+
+const Start = ({access,api,country}) => {
     const [featured, setFeatured] = useState([]);
     const [isNew, setNew] = useState([])
 
+ 
+
     useEffect(() => {
+        if(!isNew) return setNew([])
+        if(!access) return;
+       
+        api.getNewReleases({
+              limit : 5,
+              offset: 0, 
+              country: country,
+              timestamp:'2020-10-23T09:00:00'
+        })
+         .then(data => {
+          // console.log(data.body.albums.items);
+           setNew(
+               data.body.albums.items.map(newTrack => {
+                   return {
+                   artist: newTrack.artists[0].name,
+                   image: newTrack.images[0].url,
+                   id: newTrack.id,
+                   name: newTrack.name,
+                   date: newTrack.release_date,     
+                   }
+               })
+           )
+         
+         })
+     
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, [country])
+
+     useEffect(() => {
         if(!featured) return setFeatured([])
         if(!access) return;
 
@@ -30,8 +89,7 @@ const Start = ({access,api}) => {
         api.getFeaturedPlaylists({ 
             limit : 8, 
             offset: 1, 
-            country: 'PL', 
-            locale: 'pl_PL', 
+            country: country, 
     
         })
         .then(data => { 
@@ -52,54 +110,63 @@ const Start = ({access,api}) => {
             console.log("Something went wrong!", err);
          }) ;  
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [access])
-
-    useEffect(() => {
-       
-        api.getNewReleases({
-              limit : 1,
-              offset: 0, 
-              country: 'PL'
-        })
-         .then(data => {
-           console.log(data.body.albums.items);
-           setNew(
-               data.body.albums.items.map(newTrack => {
-                   return {
-                   artist: newTrack.artists[0].name,
-                   image: newTrack.images[0].url,
-                   id: newTrack.id,
-                   name: newTrack.name,
-                   date: newTrack.release_date,     
-                   }
-               })
-           )
-         
-         })
-     
-   
-         
-     }, [api,access])
+    }, [access,country])
     return ( 
         <UserPageTemplate>
+              <Heading sectionTitle children="Released"/>
+              <Paragraph thinDesc children="latest albums"/>
+                  <StyledSwiper 
+                      loopAdditionalSlides = {6}
+                      activeslidekey={2}
+                      loop={true}                                   
+                      spaceBetween={-260}
+                      effect={'coverflow'} 
+                      grabCursor={true} 
+                      autoplay = {{
+                        "delay": 8000,
+                        "disableOnInteraction": false
+                      }}        
+                 
+                      coverflowEffect={{
+                        "slideShadows": false,
+                        "rotate": 0,
+                        "stretch": 600,
+                        "depth": 250,
+                        "modifier": 2,
+                      }} 
+                      breakpoints = {{
+                        "360": {
+                            slidesPerView:1
+                        }
+                       }}
+                    
+                      
+                       >
+                  {isNew.map(newTrack => 
+                <SwiperSlide key={newTrack.id}>
+                  <NewTrackCard  newTrack={newTrack}/>
+                  </SwiperSlide>
+                  )
 
-                  {isNew.map(newTrack => <NewTrackCard key={newTrack.id} newTrack={newTrack}/>)}
+                  }
 
+                  </StyledSwiper>
 
-                 <Heading sectionTitle children="Featured playlists"/>
-                 <Paragraph thinParagraph children="last week"/>
+                 <Heading sectionTitle children="Featured"/>
+                 <Paragraph thinDesc children="latest playlists"/>
                  <StyledBottom>
-
+                 
                    {featured.map(featured => (
-                        
+                  
                             <FeaturedItems 
                                 featured={featured}
                                 key={featured.id}
                             />
-                
+                   
                              ))
                              
                         }
+                   
 
                  </StyledBottom>
          

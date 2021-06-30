@@ -6,6 +6,9 @@ const useAuth = (code) => {
     const [refreshToken, setRefreshToken] = useState();
     const [expiresIn, setExpiresIn] = useState();
 
+
+  
+
     
     useEffect(() => {
         axios
@@ -15,8 +18,9 @@ const useAuth = (code) => {
         .then(res => {
             setAccessToken(res.data.accessToken);
             setRefreshToken(res.data.refreshToken);
-            setExpiresIn(res.data.expiresIn)
             window.history.pushState({}, null, '/') 
+
+         //   console.log(res.data)
         })
         .catch(() => {
             //przenies do login page jesli wystapi blad z wygasnieciem

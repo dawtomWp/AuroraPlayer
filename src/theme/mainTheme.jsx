@@ -4,6 +4,7 @@ export const theme = {
     alternative: 'hsla(0,0%,75%,1)',
     buttonPrimary:'linear-gradient(270deg, rgba(255,0,0,1) 50% , #00d1d1 100%)',
     textSecondary:'#8f8f8f',
+    text:'#cecece',
     
     fontSize: {
         small: '1.3rem',

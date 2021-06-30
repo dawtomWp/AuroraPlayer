@@ -7,7 +7,6 @@ const CODE = new URLSearchParams(window.location.search).get('code')
 
 function App() {
 
-  console.log(CODE)
   return (
     <>
 

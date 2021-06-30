@@ -6,7 +6,7 @@ import LoginForm from '../components/organisms/LoginForm';
 import Loading from '../components/organisms/Loading';
 import {routes} from '../routes/routes'
  
-const SCOPES = 'streaming user-read-private user-read-email user-read-playback-state user-read-currently-playing user-modify-playback-state';
+const SCOPES = 'streaming user-read-private user-read-email user-read-playback-state user-read-currently-playing user-modify-playback-state user-follow-modify user-follow-read streaming';
 const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${authParams.client_id}&response_type=code&redirect_uri=${authParams.login_redirect}&${SCOPES ? '&scope=' + encodeURIComponent(SCOPES) : ''}`
 
 const StyledWrapper = styled.div`

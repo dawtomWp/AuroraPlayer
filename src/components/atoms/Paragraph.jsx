@@ -15,6 +15,12 @@ const Paragraph = styled.p`
       font-size: ${({theme})=>theme.fontSize.small};
       text-align:center;
    `}
+   ${({thinDesc}) => thinDesc && css`
+      font-weight:${({theme})=>theme.fontWeight.thin};
+      margin-top:5px;
+      margin-bottom:20px;
+      font-size: ${({theme})=>theme.fontSize.small};
+   `}
    ${({boldParagraph}) => boldParagraph && css`
       font-weight:${({theme})=>theme.fontWeight.bold};
    `}

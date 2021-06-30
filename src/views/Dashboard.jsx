@@ -3,18 +3,19 @@ import styled from 'styled-components'
 import useAuth from '../hooks/useAuth';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Player from '../components/molecules/Player';
-import axios from 'axios';
 import Sidebar from '../components/organisms/Sidebar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { routes } from '../routes/routes';
 import Placeholder from './Placeholder'
 import Start from './Start';
 import Browser from './Browser';
+import UserBar from '../components/molecules/UserBar';
 
 
 
 const StyledWrapper = styled.section`
    display:flex;
+   flex-direction: column;
    min-height:100vh;
 `
 const PlayPanel = styled.div`
@@ -37,6 +38,34 @@ const spotifyApi = new SpotifyWebApi({
 const Dashboard = ({code}) => {
     const accessToken = useAuth(code);
     const [currentTrack,setCurrentTrack] = useState('');
+    const [user, setUser] = useState([]);
+    const [country,setCountry] = useState();
+    const [avatar,setAvatar] = useState();
+
+    
+
+    useEffect(() => {
+        if(!user) return setUser([]);
+        if(!accessToken) return;
+  
+        spotifyApi.getMe()
+          
+            .then(data => {
+                console.log(data.body)
+  
+                setUser(data.body.display_name)
+                setCountry(data.body.country)
+                setAvatar(data.body.images[0].url)
+              
+            })
+            .catch(err => {
+               console.log("Something went wrong!", err);
+            }) ;
+         
+
+    },[accessToken, user])
+
+    console.log(country)
  
 
     const handleTrack = (track) => {
@@ -46,14 +75,18 @@ const Dashboard = ({code}) => {
   
   
 
-
     return (
+   
         
              <StyledWrapper>
         
 
                    <BrowserRouter>
                       <Sidebar/>
+                      <UserBar        
+                              name={user}
+                              image={avatar}
+                        />
                       <PlayPanel>                      
                           <Player 
                               accessToken={accessToken} 
@@ -67,6 +100,7 @@ const Dashboard = ({code}) => {
                               <Start 
                                  access={accessToken}
                                  api={spotifyApi}
+                                 country={country}
                                />
                           </Route>
                           <Route exact path={routes.browser}>
@@ -77,8 +111,7 @@ const Dashboard = ({code}) => {
                                />
                           </Route>
                           <Route exact path={routes.placeholder}>
-                              <Placeholder 
-                                   code={code} 
+                              <Placeholder  
                                    api={spotifyApi} 
                                    access={accessToken} 
                               />
@@ -87,7 +120,6 @@ const Dashboard = ({code}) => {
                    </BrowserRouter>
         
                    
-
              
                
             </StyledWrapper>
