@@ -1,7 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import useAuth from '../hooks/useAuth';
 import UserPageTemplate from '../templates/UserPageTemplate';
-import SpotifyWebApi from 'spotify-web-api-node';
 import CategoriesList from '../components/molecules/CategoriesList';
 
 

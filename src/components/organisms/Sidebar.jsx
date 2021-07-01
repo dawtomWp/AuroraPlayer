@@ -63,7 +63,7 @@ const Sidebar = () => {
 
            <LibrarySection>
                  <Paragraph navitem="true" as={NavLink} to="/recently"><span><BsClock/></span> recently</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/favourite"><span><AiOutlineHeart/></span> Favourite</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/favourites"><span><AiOutlineHeart/></span> Favourite</Paragraph>
                  <Paragraph navitem="true" as={NavLink} to="/artists"><span><BsPerson/></span> Artists</Paragraph>
                  <Paragraph navitem="true" as={NavLink} to="/albums"><span><RiAlbumLine/></span> Albums</Paragraph>
            </LibrarySection>

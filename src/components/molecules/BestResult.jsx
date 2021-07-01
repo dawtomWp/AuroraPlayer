@@ -8,7 +8,7 @@ import {BsClock} from 'react-icons/bs';
 
 
 const StyledWrapper = styled.div`
-     width:35%;
+  
 
      & > h1 {
          font-size:20px;

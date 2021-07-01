@@ -10,6 +10,7 @@ import Placeholder from './Placeholder'
 import Start from './Start';
 import Browser from './Browser';
 import UserBar from '../components/molecules/UserBar';
+import Artists from './Artists';
 
 
 
@@ -116,6 +117,13 @@ const Dashboard = ({code}) => {
                                    access={accessToken} 
                               />
                           </Route>
+                          <Route exact path={routes.artists}>
+                              <Artists
+                                   api={spotifyApi} 
+                                   access={accessToken} 
+                              />
+                          </Route>
+
                         </Switch>
                    </BrowserRouter>
         

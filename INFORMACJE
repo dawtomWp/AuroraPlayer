@@ -1,11 +1,1 @@
-1. animation presence niby dziala ale opacity nie zmianialo sie przy wyjsciu
-
-
-2. naprawic nawigacje bo nie znika jedna tresc jak pojawia sie druga, chodzi o dashboard
-w sidebarze jest nawigacja i w appie
-
-
-3. ojj bylo UDALO sie podzielic je jakos zapomnialem o SPRED OBIEKTU ...item
-4. teraz czas na featured jest problem że jakaś pętla czy cos albo wysweitla wszystko co jest przy mapowaniu
-
-5. cos nie tak z tymi new releases
+1. mozna by wypisac gatunki wykonawcow, znajde w Artists console log

@@ -153,7 +153,7 @@ const Start = ({access,api,country}) => {
                   </StyledSwiper>
 
                  <Heading sectionTitle children="Featured"/>
-                 <Paragraph thinDesc children="latest playlists"/>
+                 <Paragraph style={{marginBottom:"15px"}} thinDesc children="latest playlists"/>
                  <StyledBottom>
                  
                    {featured.map(featured => (

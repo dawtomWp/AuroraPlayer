@@ -21,10 +21,7 @@ const Logo = styled.img`
      text-align:center;
      border-radius:50%;
      box-shadow: 0px 5px 15px 1px #858585;
-     &:hover {
-      box-shadow: 0px 5px 10px 3px #858585;
-
-     }
+  
   `}
   ${({avatar}) => avatar && css`
        box-shadow: 0px 15px 20px 1px #aaaaaa;

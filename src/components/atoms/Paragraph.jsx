@@ -19,9 +19,10 @@ const Paragraph = styled.p`
       font-weight:${({theme})=>theme.fontWeight.bold};
       margin-top:5px;
       font-size: ${({theme})=>theme.fontSize.small};
+      text-transform: capitalize;
    `}
    ${({thinDesc}) => thinDesc && css`
-      font-weight:${({theme})=>theme.fontWeight.thin};
+      font-weight:${({theme})=>theme.fontWeight.regular};
       margin-top:5px;
 
       font-size: ${({theme})=>theme.fontSize.small};

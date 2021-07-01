@@ -4,5 +4,6 @@ export const routes = {
     start: '/',
     login: '/login',
     browser: '/browser',
-    placeholder: "/placeholder"
+    placeholder: "/placeholder",
+    artists: "/artists"
 }

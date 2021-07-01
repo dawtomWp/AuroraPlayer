@@ -1,5 +1,6 @@
 import React from 'react';
 import { useConverter } from '../../hooks/useConverter';
+import { useDateFormat } from '../../hooks/useDateFormat';
 import styled from 'styled-components';
 import Logo from '../atoms/Logo';
 import Paragraph from '../atoms/Paragraph';
@@ -44,6 +45,7 @@ const TimeInfo = styled.div`
 const TrackSearchResult = ({track, chooseTrack}) => {
     
     const isConvert = useConverter(track.duration)
+    const isDataFormatted = useDateFormat(track.played)
 
     function handlePlay () {
       chooseTrack(track)
@@ -69,6 +71,7 @@ const TrackSearchResult = ({track, chooseTrack}) => {
           <TimeInfo>
             <Paragraph thinSmall><span><BsClock/></span>{isConvert}</Paragraph>
             <Paragraph thinSmall><span><RiAlbumLine/></span>{track.release}</Paragraph>
+            <Paragraph thinDesc>{isDataFormatted}</Paragraph>
           </TimeInfo>
     </Track> 
     
