@@ -20,7 +20,7 @@ const Logo = styled.img`
      height:${({bigger}) => bigger ? "145px" :"100px"};
      text-align:center;
      border-radius:50%;
-     box-shadow: 0px 5px 15px 1px #858585;
+     box-shadow: ${({detailsSection}) => detailsSection ?"0px 5px 15px 1px #3a3939" : "0px 5px 15px 1px #858585"};
   
   `}
   ${({avatar}) => avatar && css`

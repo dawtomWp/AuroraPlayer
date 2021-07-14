@@ -12,7 +12,7 @@ export const theme = {
         large: '2.3rem',
         extraLarge: '4rem',
         huge: '6rem',
-        xxl:'14vw'
+        xxl:'9rem'
     },
     fontWeight: {
         thin: 100,

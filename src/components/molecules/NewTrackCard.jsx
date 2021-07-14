@@ -57,13 +57,13 @@ const InnerShadow = styled.div`
    opacity:.6;
 `
 
-const NewTrackCard = ({newTrack}) => {
+const NewTrackCard = ({newTrack, onClick, album}) => {
     return ( 
-        <StyledWrapper style={{backgroundImage:`url(${newTrack.image})`}}>
-            <h2>{newTrack.name}</h2>
+        <StyledWrapper album={album} onClick={onClick} style={{backgroundImage:`url(${newTrack.image})`}}>
+            <h2>{newTrack.title}</h2>
      
                <p>Artist<span>{newTrack.artist}</span></p>
-               <p>Release <span>{newTrack.date}</span></p>
+               <p>Release <span>{newTrack.release}</span></p>
 
             <InnerShadow/>
           

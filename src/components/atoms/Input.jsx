@@ -8,13 +8,17 @@ const StyledWrapper = styled.div`
   align-items: center;
   color: ${({theme})=> theme.textSecondary};
   cursor: pointer;
+  margin-top:-27px;
+  width:230px;
+  border-bottom:1px solid grey;
+
 `
 
 const StyledInput = styled.input`
   border:none;
   padding:10px 9px 10px 7px;
   width:230px;
-
+  outline-color:darkgrey;
   color: ${({theme})=> theme.textSecondary};
   font-weight:${({theme})=> theme.fontWeight.bold};
   background:none;

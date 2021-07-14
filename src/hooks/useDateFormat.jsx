@@ -7,7 +7,7 @@ export const useDateFormat = date => {
     useEffect(() => {
 
         if(date) {
-            setDateFormatted(date.replace("T", ", ").slice(0,30))
+            setDateFormatted(date.replace("T", ", ").slice(0,25))
         }
              
     }, [date])

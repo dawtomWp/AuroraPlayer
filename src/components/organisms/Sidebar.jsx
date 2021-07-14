@@ -38,10 +38,6 @@ const MainNavSection = styled.nav`
   display: flex;
   flex-direction: column;
 `
-const LibrarySection= styled.div`
-  display: flex;
-  flex-direction: column;
-`
 const PlaylistSection= styled.div`
   display: flex;
   flex-direction: column;
@@ -58,15 +54,12 @@ const Sidebar = () => {
            <MainNavSection>
                  <Paragraph navitem="true" as={NavLink} to="/"><span><TiHome/></span> Home</Paragraph>
                  <Paragraph navitem="true" as={NavLink} to="/browser"><span><GoSearch/></span> Browse</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/placeholder"><span><GoSearch/></span> Placeholder</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/favourite"><span><AiOutlineHeart/></span> Favourite</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/artists"><span><BsPerson/></span> Artists</Paragraph>
+                 <Paragraph navitem="true" as={NavLink} to="/playlists"><span><RiAlbumLine/></span> Playlists</Paragraph>
            </MainNavSection>
 
-           <LibrarySection>
-                 <Paragraph navitem="true" as={NavLink} to="/recently"><span><BsClock/></span> recently</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/favourites"><span><AiOutlineHeart/></span> Favourite</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/artists"><span><BsPerson/></span> Artists</Paragraph>
-                 <Paragraph navitem="true" as={NavLink} to="/albums"><span><RiAlbumLine/></span> Albums</Paragraph>
-           </LibrarySection>
+
 
            <PlaylistSection>
   

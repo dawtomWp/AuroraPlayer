@@ -9,18 +9,17 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    padding-bottom:30px;
  
 `
 
 
 
-const FeaturedItems = ({featured}) => {
+const FeaturedItems = ({featured, onClick}) => {
     return ( 
-        <StyledWrapper>
-
-
+        <StyledWrapper onClick={onClick}>
                 <Logo medium src={featured.image}/>
-                <Paragraph thinSmallCenter children={featured.name}/>
+                <Paragraph thinSmallCenter children={featured.title}/>
         
         </StyledWrapper>
      );

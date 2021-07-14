@@ -3,6 +3,7 @@ import { useConverter } from '../../hooks/useConverter';
 import { useDateFormat } from '../../hooks/useDateFormat';
 import styled from 'styled-components';
 import Logo from '../atoms/Logo';
+import Heading from '../atoms/Heading';
 import Paragraph from '../atoms/Paragraph';
 import {BsClock} from 'react-icons/bs';
 import {RiAlbumLine} from 'react-icons/ri';
@@ -41,8 +42,12 @@ const TimeInfo = styled.div`
    }
      
 `
+const StyledHeadingWrapper = styled(Heading)`
+   margin-right:10px;
+   background-color:red;
+`
 
-const TrackSearchResult = ({track, chooseTrack}) => {
+const TrackSearchResult = ({track, chooseTrack, albumItem}) => {
     
     const isConvert = useConverter(track.duration)
     const isDataFormatted = useDateFormat(track.played)
@@ -52,10 +57,15 @@ const TrackSearchResult = ({track, chooseTrack}) => {
     }
 
     return (
-    <Track onClick = {handlePlay}>
+    <Track albumItem={albumItem} onClick = {handlePlay}>
                    
           <div>
-            <Logo small src={track.albumUrl} alt="song poster"/>
+             {albumItem ? 
+             <Heading style={{marginRight: "10px"}}  children={track.number}/>
+                :
+             <Logo small src={track.albumUrl} alt="song poster"/>
+            }
+           
 
              <div>
                 <p children={track.title}/>
@@ -70,7 +80,7 @@ const TrackSearchResult = ({track, chooseTrack}) => {
           </div>
           <TimeInfo>
             <Paragraph thinSmall><span><BsClock/></span>{isConvert}</Paragraph>
-            <Paragraph thinSmall><span><RiAlbumLine/></span>{track.release}</Paragraph>
+            {!albumItem &&<Paragraph thinSmall><span><RiAlbumLine/></span>{track.release}</Paragraph>}
             <Paragraph thinDesc>{isDataFormatted}</Paragraph>
           </TimeInfo>
     </Track> 

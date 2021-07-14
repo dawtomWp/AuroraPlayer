@@ -11,6 +11,10 @@ import Start from './Start';
 import Browser from './Browser';
 import UserBar from '../components/molecules/UserBar';
 import Artists from './Artists';
+import DetailsArtist from './DetailsArtist';
+import AlbumDetails from './AlbumDetails';
+import Favourite from './Favourite';
+import UserPlaylists from './UserPlaylists';
 
 
 
@@ -39,11 +43,12 @@ const spotifyApi = new SpotifyWebApi({
 const Dashboard = ({code}) => {
     const accessToken = useAuth(code);
     const [currentTrack,setCurrentTrack] = useState('');
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState();
     const [country,setCountry] = useState();
     const [avatar,setAvatar] = useState();
 
-    
+    const [currentArtist,setCurrentArtist] = useState()
+    const [currentAlbum, setCurrentAlbum] = useState()
 
     useEffect(() => {
         if(!user) return setUser([]);
@@ -66,13 +71,18 @@ const Dashboard = ({code}) => {
 
     },[accessToken, user])
 
-    console.log(country)
+    console.log(user)
  
 
     const handleTrack = (track) => {
         setCurrentTrack({...track})
     }
-    
+    const handleCurrentArtist = (artist) => {
+        setCurrentArtist({...artist})
+    }
+    const handleCurrentAlbum = (album) => {
+        setCurrentAlbum({...album})
+    }
   
   
 
@@ -90,7 +100,8 @@ const Dashboard = ({code}) => {
                         />
                       <PlayPanel>                      
                           <Player 
-                              accessToken={accessToken} 
+                              access={accessToken} 
+                              api={spotifyApi}
                               trackUri={currentTrack?.uri}
                           />                      
                      </PlayPanel> 
@@ -102,6 +113,7 @@ const Dashboard = ({code}) => {
                                  access={accessToken}
                                  api={spotifyApi}
                                  country={country}
+                                 albumCallback={handleCurrentAlbum}
                                />
                           </Route>
                           <Route exact path={routes.browser}>
@@ -109,20 +121,53 @@ const Dashboard = ({code}) => {
                                    access={accessToken} 
                                    api={spotifyApi} 
                                    trackCallback={handleTrack} 
+                                   artistCallback={handleCurrentArtist}
+                                   albumCallback={handleCurrentAlbum}
                                />
                           </Route>
-                          <Route exact path={routes.placeholder}>
-                              <Placeholder  
-                                   api={spotifyApi} 
+                          <Route exact path={routes.favourite}>
+                               <Favourite
                                    access={accessToken} 
-                              />
+                                   api={spotifyApi} 
+                                   trackCallback={handleTrack} 
+                               />
                           </Route>
                           <Route exact path={routes.artists}>
                               <Artists
                                    api={spotifyApi} 
                                    access={accessToken} 
+                                   artistCallback={handleCurrentArtist}
                               />
                           </Route>
+                          <Route exact path={routes.artistDetails}>
+                              <DetailsArtist
+                                   api={spotifyApi} 
+                                   currentArtist={currentArtist}
+                                   access={accessToken} 
+                                   country={country}
+                                   trackCallback={handleTrack} 
+                                   albumCallback={handleCurrentAlbum}
+                          
+                              />
+                          </Route>
+                             <Route exact path={routes.albumDetails}>
+                                <AlbumDetails
+                                   api={spotifyApi}
+                                   access={accessToken}
+                                   currentAlbum={currentAlbum}
+                                   trackCallback={handleTrack} 
+                                />
+                             </Route>
+
+                             <Route exact path={routes.playlists}>
+                                  <UserPlaylists
+                                    api={spotifyApi}
+                                    access={accessToken}
+                                    user={user}
+                                    trackCallback={handleTrack} 
+                                    albumCallback={handleCurrentAlbum}
+                                  />
+                             </Route>
 
                         </Switch>
                    </BrowserRouter>

@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router';
+import DetailsArtist from './DetailsArtist';
 import UserPageTemplate from '../templates/UserPageTemplate';
 import TrackSearchResult from '../components/molecules/TrackSearchResult';
 import axios from 'axios';
@@ -7,6 +9,9 @@ import BestResult from '../components/molecules/BestResult';
 import Heading from '../components/atoms/Heading';
 import ArtistsResult from '../components/molecules/ArtistsResult';
 import Input from '../components/atoms/Input';
+import Playlist from '../components/molecules/Playlist';
+import { routes } from '../routes/routes';
+import AlbumDetails from './AlbumDetails';
 
 
 const StyledInnerWrapper = styled.div`
@@ -44,7 +49,7 @@ const RecentlyWrapper = styled.div`
 
 
 
-const Browser = ({access,api, trackCallback}) => {
+const Browser = ({access,api, trackCallback, artistCallback,albumCallback}) => {
    const [searchResults, setSearchResults] = useState([]);
    const [bestResult, setBestResult] = useState('')
    const [search, setSearch] = useState('');
@@ -52,10 +57,20 @@ const Browser = ({access,api, trackCallback}) => {
    const [lyrics, setLyrics] = useState("");
    const [artists, setArtists] = useState([]);
    const [recently,setRecently] = useState([]);
+   const [currentArtist, setCurrentArtist] = useState('');
+   const [redirect,setRedirect] = useState(false);
+   const [playlists, setPlaylists] = useState([]);
+   const [currentAlbum, setCurrentAlbum] = useState('');
+
+   const showArtist = (artists) => {
+  
+    setCurrentArtist(artists)
+    artistCallback(artists)
+    setRedirect(true)
+    console.log(artists)
+}
 
 
-
-   
    const chooseTrack = (track) => {
     setPlayingTrack(track)
     setSearch('')
@@ -63,21 +78,25 @@ const Browser = ({access,api, trackCallback}) => {
     trackCallback(track)
     setBestResult('')
 }
+const showAlbum = (album) => {
+    setCurrentAlbum(album)
+    albumCallback(album)
+    setRedirect(true);
+    console.log(album, currentAlbum)
+}
 
     useEffect(()=>{
         if(!access) return;
 
-   
-    
         api.getMyRecentlyPlayedTracks({
          limit : 30
         })
         .then(data => {
-         console.log(data.body.items)
+      //   console.log(data.body.items)
          setRecently(
             data.body.items.map(recent => {
                 return {
-                    played:"Last played: " + recent.played_at,
+                    played:"Played: " + recent.played_at,
                     title: recent.track.name,
                     duration: recent.track.duration_ms,
                     artist: recent.track.artists[0].name,
@@ -114,16 +133,18 @@ const Browser = ({access,api, trackCallback}) => {
 
                  setArtists(
                    
-                    data.body.artists.items.slice(0, 6).map(artist => {
+                    data.body.artists.items.slice(0, 4).map(artist => {
                       
                         return {
                             id: artist.id,
                             name: artist.name,
                             href: artist.href,
+                            artistPhoto: artist.images[0] ? artist.images[0].url : null,
                             artistAvatar: artist.images[1] ? artist.images[1].url : null,
                             type: artist.type,
                             uri: artist.uri,
-                            followers: artist.followers.total
+                            followers: artist.followers.total,
+                            genres: artist.genres[0] ? artist.genres[0] : null
                         }
                   
                     }) 
@@ -148,7 +169,7 @@ const Browser = ({access,api, trackCallback}) => {
                 }
             )
             setSearchResults(
-                res.body.tracks.items.slice(0, 15).map(track => {
+                res.body.tracks.items.slice(0, 17).map(track => {
 
                 const albumImgSmall = track.album.images.reduce(
                 (smallest,image) => {
@@ -169,6 +190,22 @@ const Browser = ({access,api, trackCallback}) => {
             }))
  
         })
+        api.searchPlaylists(search)
+            .then(data => {
+                console.log(data.body.playlists.items)
+                setPlaylists(
+                    data.body.playlists.items.slice(0, 6).map(playlist => {
+                        return {
+                            title: playlist.name,
+                            id: playlist.id,
+                            description: playlist.description,
+                            tracks: playlist.tracks.total,
+                            owner: playlist.owner.display_name,
+                            image: playlist.images[0] ? playlist.images[0].url : null
+                        }
+                    })
+                )
+            })
 
       return () => cancel = true
     },[api,search, access])
@@ -188,7 +225,6 @@ const Browser = ({access,api, trackCallback}) => {
         })
     }, [playingTrack])
 
-
     return ( 
        <UserPageTemplate>
              <div>
@@ -206,14 +242,42 @@ const Browser = ({access,api, trackCallback}) => {
                                     chooseTrack={chooseTrack}
                                 />
                         <Heading sectionTitle children='Artists'/>
-                        <ArtistsWrapper>
-                                {artists.map(artists => (
-                                   
-                                    <ArtistsResult artists={artists}/>
-            
-                                 ))
-                                }
-                         </ArtistsWrapper>
+                        {redirect ? 
+                           <Redirect to={routes.artistDetails} component={DetailsArtist}/>
+                           :
+                           <ArtistsWrapper>
+                           {artists.map(artists => (
+                              
+                               <ArtistsResult 
+                                     artists={artists} 
+                                     key={artists.id}
+                                     onClick={() => showArtist(artists)}
+                               />
+       
+                            ))
+                           }
+                    
+                    </ArtistsWrapper>                 
+
+                        }
+                          <Heading sectionTitle children='Playlists'/>
+                    <ArtistsWrapper>
+                      
+                           {redirect ?
+                                <Redirect to={routes.albumDetails} component={AlbumDetails}/>
+                                :
+                                <>                     
+                                 {playlists.map(playlist=>
+                                           <Playlist 
+                                               key={playlist.id}
+                                               playlist={playlist}
+                                               onClick={()=> showAlbum(playlist)}
+                                            />
+                                        )}
+                                </>
+                            }
+                    </ArtistsWrapper>
+                 
                         </WrapperLeft>
 
                                 <SearchResultWrapper>      
@@ -233,6 +297,7 @@ const Browser = ({access,api, trackCallback}) => {
                                           </div>
                                           
                                       )}
+                                    
                                   </SearchResultWrapper>
                        </>
                         :

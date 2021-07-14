@@ -1,23 +1,23 @@
 import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router';
 import FeaturedItems from '../components/molecules/FeaturedItems';
 import UserPageTemplate from '../templates/UserPageTemplate';
 import Heading from '../components/atoms/Heading';
 import Paragraph from '../components/atoms/Paragraph';
 import NewTrackCard from '../components/molecules/NewTrackCard';
-
+import AlbumDetails from './AlbumDetails';
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/swiper.min.css";
 import "swiper/components/effect-coverflow/effect-coverflow.min.css"
 import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.min.css"
-
-
 import SwiperCore, {
   EffectCoverflow,Pagination,Autoplay,Navigation
 } from 'swiper/core';
+import { routes } from '../routes/routes';
+import Button from '../../src/components/atoms/Button'
 
 
 SwiperCore.use([EffectCoverflow,Pagination,Autoplay,Navigation]);
@@ -38,16 +38,34 @@ const StyledSwiper = styled(Swiper)`
  margin:0 auto;
  display: flex;
  padding:40px !important;
-
-
-
+`
+const StyledFeaturedSectionInfo = styled.div`
+  display:flex;
+  width:90%;
+  justify-content: space-between;
 `
 
 
 
-const Start = ({access,api,country}) => {
+const Start = ({access,api,country, albumCallback}) => {
     const [featured, setFeatured] = useState([]);
     const [isNew, setNew] = useState([])
+
+    const [currentAlbum, setCurrentAlbum] = useState('');
+    const [redirect,setRedirect] = useState(false);
+    const [displayList,setDisplayList] = useState(false);
+
+    let numberOfPlaylists = displayList ? featured.length : 8;
+
+    const showAlbum = (album) => {
+        setCurrentAlbum(album)
+        albumCallback(album)
+        setRedirect(true);
+     //   console.log(album, currentAlbum)
+    }
+    const handlePlaylistsLength = () => {
+        setDisplayList(!displayList)
+    }
 
  
 
@@ -62,15 +80,16 @@ const Start = ({access,api,country}) => {
               timestamp:'2020-10-23T09:00:00'
         })
          .then(data => {
-          // console.log(data.body.albums.items);
+        //   console.log(data.body.albums.items);
            setNew(
                data.body.albums.items.map(newTrack => {
                    return {
                    artist: newTrack.artists[0].name,
                    image: newTrack.images[0].url,
                    id: newTrack.id,
-                   name: newTrack.name,
-                   date: newTrack.release_date,     
+                   title: newTrack.name,
+                   release: newTrack.release_date,  
+                   tracks: newTrack.total_tracks
                    }
                })
            )
@@ -87,19 +106,21 @@ const Start = ({access,api,country}) => {
         api.setAccessToken(access)
 
         api.getFeaturedPlaylists({ 
-            limit : 8, 
+            limit : 16, 
             offset: 1, 
             country: country, 
     
         })
         .then(data => { 
-            // console.log(data.body.playlists.items, "Kawczano");
+             console.log(data.body.playlists.items, "Kawczano");
              setFeatured(
                  data.body.playlists.items.map(item => {
                      return {
-                         name: item.name,
+                         title: item.name,
                          image: item.images[0].url,
                          id: item.id,
+                         tracks: item.tracks.total,
+                         release: item.description //fake release name for description
                     
                      }
                  })
@@ -111,6 +132,8 @@ const Start = ({access,api,country}) => {
          }) ;  
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [access,country])
+
+    console.log(isNew)
     return ( 
         <UserPageTemplate>
               <Heading sectionTitle children="Released"/>
@@ -142,30 +165,51 @@ const Start = ({access,api,country}) => {
                     
                       
                        >
-                  {isNew.map(newTrack => 
-                <SwiperSlide key={newTrack.id}>
-                  <NewTrackCard  newTrack={newTrack}/>
-                  </SwiperSlide>
-                  )
-
-                  }
+                  {redirect ?  
+                      <Redirect to={routes.albumDetails} component={AlbumDetails}/>
+                        :
+                        isNew.map(newTrack => 
+                            <SwiperSlide key={newTrack.id}>
+                             <NewTrackCard  
+                                  album={isNew}
+                                  newTrack={newTrack}
+                                  onClick = {() =>showAlbum(newTrack)}
+                             />
+                           </SwiperSlide>
+                         )
+                         
+                        }
+         
 
                   </StyledSwiper>
 
-                 <Heading sectionTitle children="Featured"/>
-                 <Paragraph style={{marginBottom:"15px"}} thinDesc children="latest playlists"/>
+                <StyledFeaturedSectionInfo>
+                    <div>
+                      <Heading sectionTitle children="Featured"/>
+                      <Paragraph style={{marginBottom:"15px"}} thinDesc children="latest playlists"/>
+                    </div>
+                    <div>
+                       <Button tertiary onClick={handlePlaylistsLength}>{displayList ? "Show less": "Show more"}</Button>
+                    </div>
+                </StyledFeaturedSectionInfo>
+
+                
                  <StyledBottom>
                  
-                   {featured.map(featured => (
+                   {redirect ?  
+                         <Redirect to={routes.albumDetails} component={AlbumDetails}/>
+                         :
+                          featured.slice(0,numberOfPlaylists).map(featured => (
                   
                             <FeaturedItems 
                                 featured={featured}
                                 key={featured.id}
+                                onClick = {() =>showAlbum(featured)}
                             />
                    
                              ))
                              
-                        }
+                    }
                    
 
                  </StyledBottom>

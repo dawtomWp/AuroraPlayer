@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNumFormatter } from '../../hooks/useNumFormatter';
 import Logo from '../atoms/Logo';
+import Heading from '../atoms/Heading';
 import Paragraph from '../atoms/Paragraph';
 
 const StyledWrapper = styled.div`
@@ -9,6 +9,7 @@ const StyledWrapper = styled.div`
    flex-direction: column;
    align-items:center;
    padding:25px;
+   max-width:250px;
    background:white;
    border-radius:30px;
    box-shadow: 0px 15px 20px #b8b5b536;
@@ -18,21 +19,17 @@ const StyledWrapper = styled.div`
        transform:scale(1.05);
        box-shadow: 0px 15px 20px #b8b5b57d;
    }
+
 `
 
-const ArtistsResult = ({artists, onClick}) => {
-
-    
-
-    const isFormatted = useNumFormatter(artists.followers)
-
+const Playlist = ({playlist,onClick}) => {
     return ( 
         <StyledWrapper onClick={onClick}>
-            <Logo  medium src={artists.artistAvatar}/>
-            <Paragraph thinSmall children={artists.name}/>
-            <Paragraph thinDesc>{isFormatted ? isFormatted + " Followers" : null}</Paragraph>
-        </StyledWrapper>
+        <Logo medium src={playlist.image}/>
+        <Paragraph style={{marginTop:"10px"}} thinSmall children={playlist.title}/>
+        <Paragraph thinDesc>By {playlist.owner}</Paragraph>   
+   </StyledWrapper>
      );
 }
  
-export default ArtistsResult;
+export default Playlist;

@@ -5,5 +5,9 @@ export const routes = {
     login: '/login',
     browser: '/browser',
     placeholder: "/placeholder",
-    artists: "/artists"
+    favourite: "/favourite",
+    artists: "/artists",
+    artistDetails: "/artistDetails",
+    albumDetails: "/albumDetails",
+    playlists: "/playlists"
 }

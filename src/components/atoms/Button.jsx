@@ -47,5 +47,18 @@ const Button = styled.a`
         margin-right:8px; 
       }
   `}
+  ${({tertiary})=> tertiary && css`
+      width:120px;
+      background:none;
+      box-shadow:none;
+      color:#464646;
+      height:38px; 
+      font-size: ${({theme})=>theme.fontSize.small};
+      font-weight: ${({theme})=> theme.fontWeight.regular};
+
+      & > span {
+        margin-right:8px; 
+      }
+  `}
 `
 export default Button;

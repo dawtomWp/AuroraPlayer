@@ -13,23 +13,38 @@ const StyledPlayer = styled(SpotifyPlayer)`
     }
 `
 
-const Player = ({accessToken, trackUri}) => {
+const Player = ({access,api, trackUri}) => {
     const [play,setPlay] = useState(false);
     useEffect(() => setPlay(true),[trackUri])
 
+    const repeatTrack = () => {
+        console.log(trackUri)
+        api.play()
+        .then(function () {
+            console.log('Repeat track.');
+         }, function(err) {
+            console.log('Something went wrong!', err);
+       });
 
-    if(!accessToken) return null;
+
+    }
+
+
+
+
+    if(!access) return null;
     return ( 
         <StyledWrapper>
 
                <StyledPlayer
-                      token={accessToken}
+                      token={access}
                       showSaveLogo
+                      previousTracks
+                      magnifySliderOnHover
                       callback={state => {
                           if(!state.isPlaying) setPlay(false)
                       }}
                       play={play}
-                      showSaveIcon
                       uris={trackUri ? [trackUri] : []}
                       styles={{
                         color: '#00d1d1',
@@ -37,6 +52,7 @@ const Player = ({accessToken, trackUri}) => {
                          sliderHandleColor: 'rgba(255,0,0,1)',
                   }}
         />
+        {/* <button onClick={repeatTrack}>rejpit</button> */}
         </StyledWrapper>
        
      );

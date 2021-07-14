@@ -6,7 +6,7 @@ const Container = styled.div`
    display: flex;
    flex-direction: column;
    width:100%;
-   padding:20px 0 20px 400px;
+   padding:20px 0 150px 400px;
 `
 
 const UserPageTemplate = ({children}) => {
